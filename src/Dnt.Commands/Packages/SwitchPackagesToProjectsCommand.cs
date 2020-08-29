@@ -39,7 +39,7 @@ namespace Dnt.Commands.Packages
                 {
                     if (solution.ProjectsInOrder.All(p => p.ProjectName != mapping.Key)) // check that it's not already in the solution
                     {
-                        projects.Add("\"" + configuration.GetActualPath(path) + "\"");
+                        projects.Add("\"" + configuration.GetActualPath(configuration.CoreDirectory + path) + "\"");
                     }
                 }
             }
@@ -65,7 +65,7 @@ namespace Dnt.Commands.Packages
                             foreach (var mapping in configuration.Mappings)
                             {
                                 var packageName = mapping.Key;
-                                var projectPaths = mapping.Value.Select(p => configuration.GetActualPath(p)).ToList();
+                                var projectPaths = mapping.Value.Select(p => configuration.GetActualPath(configuration.CoreDirectory + p)).ToList();
 
                                 var switchedProjects = SwitchToProject(configuration, solutionProject, projectInformation, packageName, projectPaths, host);
                                 foreach (var s in switchedProjects)

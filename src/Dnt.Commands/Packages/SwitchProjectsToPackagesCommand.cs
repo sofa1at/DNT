@@ -49,7 +49,7 @@ namespace Dnt.Commands.Packages
                         {
                             foreach (var mapping in configuration.Mappings)
                             {
-                                var projectPaths = mapping.Value.Select(p => configuration.GetActualPath(p)).ToList();
+                                var projectPaths = mapping.Value.Select(p => configuration.GetActualPath(configuration.CoreDirectory + p)).ToList();
                                 var packageName = mapping.Key;
 
                                 var switchedProjects = SwitchToPackage(
@@ -81,10 +81,10 @@ namespace Dnt.Commands.Packages
                 foreach (var path in mapping.Value)
                 {
                     var project = solution.ProjectsInOrder.FirstOrDefault
-                        (p => PathUtilities.ToAbsolutePath(p.RelativePath, Path.GetDirectoryName(configuration.ActualSolution)) == configuration.GetActualPath(path));
+                        (p => PathUtilities.ToAbsolutePath(p.RelativePath, Path.GetDirectoryName(configuration.ActualSolution)) == configuration.GetActualPath(configuration.CoreDirectory + path));
                     if (project != null)
                     {
-                        projects.Add("\"" + configuration.GetActualPath(path) + "\"");
+                        projects.Add("\"" + configuration.GetActualPath(configuration.CoreDirectory + path) + "\"");
                     }
                 }
             }
